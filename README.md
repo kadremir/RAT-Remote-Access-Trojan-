@@ -120,3 +120,125 @@ Server konsolunda, aktif istemciler listelenir. İstemci seçildikten sonra aşa
 Herhangi bir soru veya öneri için issue açabilir veya e-posta ile iletişime geçebilirsiniz.
 
 ---
+
+---
+
+# RAT Remote Access Trojan
+
+This project is developed with the support of **DeepSeek**, **PentestGPT**, and **ChatGPT**. These AI-powered tools have significantly contributed to the design, security assessment, and documentation of the code, resulting in a security-focused yet user-friendly RAT system. It is a simple but powerful Remote Access Trojan (RAT) system developed in Python. It consists of two main components: **Server** and **Client**. The Server connects to target machines and sends commands, while the Client receives and executes these commands.
+
+---
+
+## Features
+
+- Multi-client management  
+- Optional SSL support  
+- File upload/download  
+- Screenshot capture  
+- Start/stop keylogger and retrieve keylogs  
+- Execute command line commands  
+- Automatic startup (persistence)  
+- Cross-platform support (Windows, Linux)  
+
+---
+
+## Installation and Usage
+
+### 1. Server Setup
+
+- Run the `server.py` file in a Python 3.6+ environment.  
+- Optionally, you can enable secure connections with SSL certificates.  
+- The server listens for incoming client connections and allows you to manage commands via the console.  
+
+```bash
+python server.py
+```
+
+Once running, active clients will be listed, and you can select a client to send commands.
+
+---
+
+### 2. Client Setup and EXE Creation
+
+The client runs on the target machine and communicates with the server.
+
+#### Creating an EXE with PyInstaller
+
+You can convert the client Python file to an executable using PyInstaller:
+
+```bash
+pip install pyinstaller
+pyinstaller --onefile --noconsole RATCLIENTDEMO.py
+```
+
+- `--onefile`: Creates a single executable file.  
+- `--noconsole`: Runs without a console window (optional).  
+
+The resulting `dist/RATCLIENTDEMO.exe` can be run on the target machine.
+
+---
+
+### 3. Running the Client
+
+- When you run the EXE on the target machine, the client will automatically try to connect to the server.  
+- If the server is not running, the client will attempt to start it automatically (if on the same machine).  
+- The client runs in the background with the console window hidden.  
+- The client copies itself to the startup folder to maintain persistence.  
+
+---
+
+## Server Commands and Usage
+
+In the server console, active clients are listed. After selecting a client, you can use the following commands:
+
+| Command           | Description                                                                                   |
+|-------------------|-----------------------------------------------------------------------------------------------|
+| `exec <command>`  | Executes a command line command on the client and shows the output.                           |
+| `download <file>` | Downloads the specified file from the client. Saved in the `downloads/` folder.               |
+| `upload <file>`   | Uploads a file from the server to the client.                                                 |
+| `screenshot`      | Captures a screenshot from the client and saves it in the `downloads/` folder.                |
+| `start_keylogger` | Starts the keylogger on the client.                                                          |
+| `stop_keylogger`  | Stops the running keylogger on the client.                                                   |
+| `get_keylogs`     | Retrieves keystrokes recorded by the keylogger and saves them in the `downloads/` folder.    |
+| `exit`            | Terminates the client connection.                                                            |
+| `back`            | Exits client selection and returns to the client list.                                       |
+| `exit` (main menu)| Closes the server application.                                                               |
+
+---
+
+## Directory Structure
+
+```
+/server.py          # Server code
+/client.py          # Client code
+/downloads/         # Folder for files downloaded from clients
+/server.log         # Server log file
+/client.log         # Client log file (temporary directory)
+```
+
+---
+
+## Security, Legal Warnings, and Ethical Use
+
+- This project is **for educational and research purposes only**.  
+- Unauthorized use on systems without permission is **illegal** and may lead to serious legal consequences.  
+- Collecting personal data without consent, using keyloggers, and remote access activities are crimes in many jurisdictions.  
+- Always review applicable laws and test only in authorized environments.  
+- The user is fully responsible for any misuse or malicious use of this software.  
+
+---
+
+## Development and Contributions
+
+- More advanced authentication and authorization can be added.  
+- Communication protocol between client and server can be improved.  
+- Platform support can be expanded.  
+- A GUI interface can be developed.  
+
+---
+
+## Contact
+
+For questions or suggestions, please open an issue or contact via email.
+
+---
